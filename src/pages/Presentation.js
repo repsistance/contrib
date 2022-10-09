@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 
 import { Routes } from "../routes";
-import cardanoLogo from "../assets/img/technologies/Cardano-original-white.png";
+import dandelionContribLogo from "../assets/img/dandelion-contributor-badge.png";
 import peopleLogo from "../assets/img/illustrations/people.png";
 import {useLocation} from "react-router-dom";
 import {ProfileWidget,NFTMinterWidget} from "../components/Widgets"
@@ -163,7 +163,7 @@ export default () => {
       <Navbar variant="dark" expand="lg" bg="dark" className="navbar-transparent navbar-theme-primary sticky-top">
         <Container className="position-relative justify-content-between px-3">
           <Navbar.Brand as={HashLink} to="#home" className="me-lg-3 d-flex align-items-center">
-            <Image src={cardanoLogo} />
+            <Image src={dandelionContribLogo} />
             <span className="ms-2 brand-text d-none d-md-inline">Cardano Summit</span>
           </Navbar.Brand>
           <div className="d-flex align-items-center">
@@ -177,8 +177,8 @@ export default () => {
         <Container>
           <Row>
             <Col xs={12} className="text-center">
-              <h1 className="fw-bolder">Sevilla Cardano Summit 2021</h1>
-              <p className="text-muted fw-light mb-5 h5">En vivo junto a miles de ciudades del mundo, el 25 y 25 de Septiembre. La asistencia es libre y gratuita!</p>
+              <h1 className="fw-bolder">Dandelion Contrib Portal</h1>
+              <p className="text-muted fw-light mb-5 h5">Mint your own Dandelion Contributor IDNFT!</p>
               <div className="d-flex align-items-center justify-content-center">
                 {!loggedIn &&
                 <Button variant="secondary" as={HashLink} to={Routes.Signup.path} className="text-dark me-3">
@@ -268,7 +268,7 @@ export default () => {
           <Row>
             <Col md={8}>
               <Navbar.Brand as={HashLink} to="#home" className="me-lg-3 mb-3 d-flex align-items-center">
-                <Image src={cardanoLogo} />
+                <Image src={dandelionContribLogo} />
                 <span className="ms-2 brand-text">Cardano</span>
               </Navbar.Brand>
               <p>Combina tecnologías pioneras para proporcionar una seguridad y sostenibilidad sin precedentes a las aplicaciones, sistemas y sociedades descentralizadas.</p>
