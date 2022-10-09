@@ -65,6 +65,7 @@ export default () => {
     const handle=`@${values.username}`;
     const issuedAt=Math.floor(Date.now() / 1000);
     //const expirationDelta=(60*60*24*2);
+    const adaAmount=(parseInt(values.adaAmount)*1000000);
     const gcCodeTemplate = {
     "type": "tx",
     "ttl": 180,
@@ -73,7 +74,7 @@ export default () => {
     "onSuccessURL": `${process.env.PUBLIC_URL}/#/signin`,
     "outputs": {
       "addr1qxyh3m7vwdw79rw97m0lghjxhhk9pjmsn6dfe2ms2m043ppvrzdp4wcghqx83fez83rz9t0lzjtqn3ug5ujnuugq4jpq39tkw2": [
-        { "quantity": `${values.adaAmount}`, "policyId": "ada", "assetName": "ada" }
+        { "quantity": `${adaAmount}`, "policyId": "ada", "assetName": "ada" }
       ]
     },
     "mints": [
