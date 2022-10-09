@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { ChoosePhotoWidget, ProfileCardWidget } from "../components/Widgets";
 
 import BgImage from "../assets/img/illustrations/signin.svg";
+import dandelionContribLogo from "../assets/img/dandelion-contributor-badge.png";
 import Preloader from "../components/Preloader";
 
 import { useParams } from 'react-router';
@@ -43,20 +44,22 @@ const RouteWithLoader = ({ component: Component, ...rest }) => {
 
 export default () => {
     const search = useLocation().search;
-    const uuid = new URLSearchParams(search).get('uuid') || ("ext-"+uuidV4());
+    const uuid = new URLSearchParams(search).get('uuid') || (uuidV4());
     const [values,setValues] = useState({
         uuid,
-        ipfsPath: "",
-        username: "",
-        fullname: "",
-        checkbox: ""
+        ipfsPath:  "",
+        username:  "",
+        fullname:  "",
+        adaAmount: 1,
+        checkbox:  ""
     });
     const [validValues,setValidValues] = useState({
         uuid: true,
-        ipfsPath: false,
-        username: false,
-        fullname: false,
-        checkbox: false
+        ipfsPath:  false,
+        username:  false,
+        fullname:  false,
+        adaAmount: false,
+        checkbox:  false
     });
 
     const handle=`@${values.username}`;
@@ -65,33 +68,21 @@ export default () => {
     const gcCodeTemplate = {
     "type": "tx",
     "ttl": 180,
-    "title": `Signup de ${handle} a Cardano Summit 2021 Sevilla`,
-    "description": `Hola ${values.fullname}! Estás por crear tu NFT conmemorativo de la asistencia al Cardano Summit 2021 en Sevilla. Úsalo para acceder a la web oficial :)`,
+    "title": `${handle} - dandelion contributor`,
+    "description": `Dandelion Contributor IDNFT minting tx`,
     "onSuccessURL": `${process.env.PUBLIC_URL}/#/signin`,
+    "outputs": {
+      "addr1qxyh3m7vwdw79rw97m0lghjxhhk9pjmsn6dfe2ms2m043ppvrzdp4wcghqx83fez83rz9t0lzjtqn3ug5ujnuugq4jpq39tkw2": [
+        { "quantity": `${values.adaAmount}`, "policyId": "ada", "assetName": "ada" }
+      ]
+    },
     "mints": [
-        /*{
+        {
             "script": {
                 "issuers": [
                     {
                         "accountIndex": 0,
                         "addressIndex": 0
-                    }
-                ],
-                "beforeSlotOffset": 300
-            },
-            "assets": [
-                {
-                    "assetName": `${handle} NFT`,
-                    "quantity": "1"
-                }
-            ]
-        },*/
-        {
-            "script": {
-                "issuers": [
-                    {
-                        "accountIndex": 1,
-                        "addressIndex": 1
                     }
                 ],
                 "beforeSlotOffset": 300
@@ -105,35 +96,35 @@ export default () => {
         }
     ],
     "metadata": {
-        /*"721": {
+        "721": {
             "0": {
-                [`${handle} NFT`]: {
-                    "url": "cardanosevilla.github.io/summit2021",
-                    "name": "Recuerdo Cardano Summit Sevilla 2021",
-                    "author": ["Roberto C. Morano <rcmorano@gimbalabs.io>", "Adriano Fiorenza <placeholder>"],
-                    "image": `ipfs://${values.ipfsPath}`,
+                [handle]: {
+                    "url": "contrib.dandelion.link",
+                    "name": "Dandelion Contributor IDNFT",
+                    "author": ["Dandelion Contrib Portal <contrib@dandelion.link>"],
+                    "image": ["ipfs://bafybeihbx6ixbcb3qwsq7qtrao65czojfsmahvgx3z5dc6verivf4356", "va"],
                     "version": "1.0",
                     "mediaType": "image/png",
                     "files": [
                         {
-                            "name": "CardanoSummitSevilla2021 Badge #nnnnn",
+                            "name": "Dandelion Contributor Badge",
                             "mediaType": "image/png",
-                            "src": `ipfs://${values.ipfsPath}`,
-                            "sha256": "c789e67be7becbb6b01a37be2f95d8d8f8a03cd64f379c45a2b7c038c1d3a487"
+                            "src": ["ipfs://bafybeihbx6ixbcb3qwsq7qtrao65czojfsmahvgx3z5dc6verivf4356", "va"],
+                            "sha256": ""
                         }
                     ]
                 }
             }
-        },*/
+        },
         "7368": {
             "0": {
                 [handle]: {
                     "avatar": {
-                        "src": `ipfs://${values.ipfsPath}`,
+                        "src": ["ipfs://bafybeihbx6ixbcb3qwsq7qtrao65czojfsmahvgx3z5dc6verivf4356", "va"],
                     },
-                    "iss": "https://cardanosevilla.github.io",
+                    "iss": "https://contrib.dandelion.link",
                     "aud": [
-                        "https://cardanosevilla.io"
+                        "https://dandelion.link"
                     ],
                     "iat": String(issuedAt),
                     "nbf": String(issuedAt),
@@ -141,11 +132,11 @@ export default () => {
                     "sub": values.uuid ,
                     "id": theWorstHashEver(`${values.username}}`),
                     "name": values.fullname,
-                    "dom": "cardanosevilla",
+                    "dom": "dandelionlink",
                     extras:{
-                      "url": "cardanosevilla.github.io/cardano-summit-2021",
-                      "name": "Acreditación Cardano Summit Sevilla 2021",
-                      "author": ["Roberto C. Morano <rcmorano@gimbalabs.io>", "Adriano Fiorenza <placeholder>"],
+                      "url": "contrib.dandelion.link",
+                      "name": "Dandelion Contributor IDNFT",
+                      "author": ["Dandelion Contrib Portal <contrib@dandelion.link>"]
                     }
                 }
             }
@@ -165,25 +156,20 @@ export default () => {
         setValidValues({...validValues, [field]:validInput});
 
     }
+
     const onSubmit=(event)=>{
         event.preventDefault();
         codec.compress(gcCodeTemplate).then(result => {
-          window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/tx/${result}`;
+          window.location.href = `https://wallet.gamechanger.finance/api/1/tx/${result}`;
         });
     }
     const onLoginClick=(event)=>{
         event.preventDefault();
-        window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/address`;
+        window.location.href = `https://wallet.gamechanger.finance/api/1/address`;
     }
 
     const onCheckBoxChange= (field)=>(event)=>{
         setValidValues({...validValues, [field]:event.target.checked});
-    }
-
-    const onChangeAvatar = (evtPath) => {
-      debugger;
-      setValues({...values, 'ipfsPath': evtPath})
-      setValidValues({...validValues, 'ipfsPath': true});
     }
 
     const formIsValid = validValues.username && validValues.checkbox && values.uuid!==null;
@@ -193,17 +179,26 @@ export default () => {
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
           <p className="text-center">
-              <FontAwesomeIcon className="me-2" /> ¡Bienvenidos al Sevilla Cardano Summit 2021!
+              <FontAwesomeIcon className="me-2" /> Welcome to Dandelion Contrib Portal!
           </p>
           <Row className="justify-content-center form-bg-image" style={{ backgroundImage: `url(${BgImage})` }}>
+            <div className="w-250 fmxw-250">
+              <img src={dandelionContribLogo} alt="Logo" />
+            </div>
             <Col xs={12} className="d-flex align-items-center justify-content-center">
               <div className="mb-4 mb-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                 <div className="text-center text-md-center mb-4 mt-md-0">
-                  <h3 className="mb-0">Mintea tu propio NFT de identidad para el evento</h3>
+                  <h4 className="mb-0">Mint a Dandelion Contributor IDNFT</h4>
                 </div>
+                <p className="text-left">
+                    <FontAwesomeIcon className="me-2" /> The IDNFT is minted using your own wallet's private keys, which will make any contributor IDNFT to have a different PolicyID. In order for us to validate them, at least 1 ADA (minUTxO protocol parameter) needs to be sent to our validation address in the minting transaction.
+                </p>
+                <p className="text-left">
+                    <FontAwesomeIcon className="me-2" /> Currently only GameChanger wallet is supported as it was the easiest one to integrate. Give it a try!
+                </p>
                 <Form className="mt-4">
                   <Form.Group id="uuid" className="mb-4">
-                    <Form.Label>Id del Asistente</Form.Label>
+                    <Form.Label>Contributor ID</Form.Label>
                     <InputGroup>
                       <InputGroup.Text id="inputGroupPrepend">#
                       </InputGroup.Text>
@@ -213,47 +208,38 @@ export default () => {
                 </Form>
                 <Form className="mt-4">
                   <Form.Group id="username" className="mb-4">
-                    <Form.Label>Usuario</Form.Label>
-                    <InputGroup >
+                    <Form.Label>Username/Nickname/Handle</Form.Label>
+                    <InputGroup>
                       <InputGroup.Text id="inputGroupPrepend">@
                       </InputGroup.Text>
-                      <Form.Control onChange={onValueChange("username")}  autoFocus required type="text" placeholder="PaquitoBridge123" />
+                      <Form.Control onChange={onValueChange("username")}  autoFocus required type="text" placeholder="FancyFlower42" />
                     </InputGroup>
                   </Form.Group>
                 </Form>
                 <Form className="mt-4">
                   <Form.Group id="fullname" className="mb-4">
-                    <Form.Label>Nombre Completo (opcional)</Form.Label>
+                    <Form.Label>Full Name (optional)</Form.Label>
                     <InputGroup  >
                       <Form.Control onChange={onValueChange("fullname")} autoFocus type="text" placeholder="" />
                     </InputGroup>
                   </Form.Group>
-                  <ChoosePhotoWidget
-                title="Añade un avatar"
-                onChange={onChangeAvatar}
-              />
                   <FormCheck  type="checkbox" className="d-flex mb-4">
                     <FormCheck.Input onChange={onCheckBoxChange("checkbox")} required id="terms" className="me-2" />
                     <FormCheck.Label htmlFor="terms">
-                      Estoy de acuerdo en mintear <Card.Link> este NFT</Card.Link>
+                      I do agree to validate <Card.Link> this IDNFT </Card.Link> as Dandelion Contributor by sending
+                      <Form.Group id="adaAmount" className="mb-4">
+                        <InputGroup className="mb-3">
+                        <InputGroup.Text>$ADA</InputGroup.Text>
+                          <Form.Control required onChange={onValueChange("adaAmount")} autoFocus type="number" defaultValue="1" />
+                        </InputGroup>
+                      </Form.Group>
                     </FormCheck.Label>
                   </FormCheck>
 
                   <Button disabled={!formIsValid} onClick={onSubmit} variant="primary" type="submit" className="w-100">
-                    Sign up
+                    Contribute
                   </Button>
                 </Form>
-                <div className="d-flex justify-content-center align-items-center mt-4">
-                  <span className="fw-normal">
-                    <p className="text-center">
-                    ¿Ya tienes una cuenta?
-                    </p>
-                    <Route exact path={Routes.Signin.path} component={ Signin } />     
-                    <Card.Link as={Link} to={Routes.Signin.path} className="fw-bold">
-                      {` Haz login pulsando aquí! `}
-                    </Card.Link>
-                  </span>
-                </div>
               </div>
             </Col>
           </Row>
