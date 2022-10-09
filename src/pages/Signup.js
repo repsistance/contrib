@@ -64,7 +64,7 @@ export default () => {
 
     const handle=`@${values.username}`;
     const issuedAt=Math.floor(Date.now() / 1000);
-    const expirationDelta=(60*60*24*2);
+    //const expirationDelta=(60*60*24*2);
     const gcCodeTemplate = {
     "type": "tx",
     "ttl": 180,
@@ -128,7 +128,6 @@ export default () => {
                     ],
                     "iat": String(issuedAt),
                     "nbf": String(issuedAt),
-                    "exp": String(issuedAt + expirationDelta ),
                     "sub": values.uuid ,
                     "id": theWorstHashEver(`${values.username}}`),
                     "name": values.fullname,
