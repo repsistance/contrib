@@ -69,12 +69,12 @@ export default () => {
     const gcCodeTemplate = {
     "type": "tx",
     "ttl": 180,
-    "title": `${handle} - dandelion contributor`,
-    "description": `Dandelion Contributor IDNFT minting tx`,
+    "title": `${handle} - repsistance contributor`,
+    "description": `repsistance Contributor IDNFT minting tx`,
     "onSuccessURL": `${process.env.PUBLIC_URL}/#/signin`,
     "outputs": {
       "addr1qxyh3m7vwdw79rw97m0lghjxhhk9pjmsn6dfe2ms2m043ppvrzdp4wcghqx83fez83rz9t0lzjtqn3ug5ujnuugq4jpq39tkw2": [
-        { "quantity": `${adaAmount}`, "policyId": "ada", "assetName": "ada" }
+        { "quantity": `${adaAmount}`, "policyId": "5612bee388219c1b76fd527ed0fa5aa1d28652838bcab4ee4ee63197", "assetName": "Discoin" }
       ]
     },
     "mints": [
@@ -100,17 +100,17 @@ export default () => {
         "721": {
             "0": {
                 [handle]: {
-                    "url": "contrib.dandelion.link",
-                    "name": "Dandelion Contributor IDNFT",
-                    "author": ["Dandelion Contrib Portal <contrib@dandelion.link>"],
-                    "image": ["ipfs://bafybeihbx6ixbcb3qwsq7qtrao65czojfsmahvgx3z5dc6verivf4356", "va"],
+                    "url": "repsistance.com",
+                    "name": "repsistance Contributor IDNFT",
+                    "author": ["repsistance <contrib@none.guru>"],
+                    "image": ["ipfs://bafkreibjm3wjmfxbuh4hmn33mxuoowkfpvx3tvchiihlnmkagpcktyd3", "pa"],
                     "version": "1.0",
                     "mediaType": "image/png",
                     "files": [
                         {
-                            "name": "Dandelion Contributor Badge",
+                            "name": "repsistance Contributor Badge",
                             "mediaType": "image/png",
-                            "src": ["ipfs://bafybeihbx6ixbcb3qwsq7qtrao65czojfsmahvgx3z5dc6verivf4356", "va"],
+                            "src": ["ipfs://bafkreibjm3wjmfxbuh4hmn33mxuoowkfpvx3tvchiihlnmkagpcktyd3", "pa"],
                             "sha256": ""
                         }
                     ]
@@ -121,22 +121,22 @@ export default () => {
             "0": {
                 [handle]: {
                     "avatar": {
-                        "src": ["ipfs://bafybeihbx6ixbcb3qwsq7qtrao65czojfsmahvgx3z5dc6verivf4356", "va"],
+                        "src": ["ipfs://bafkreibjm3wjmfxbuh4hmn33mxuoowkfpvx3tvchiihlnmkagpcktyd3", "pa"],
                     },
-                    "iss": "https://contrib.dandelion.link",
+                    "iss": "https://repsistance.com",
                     "aud": [
-                        "https://dandelion.link"
+                        "https://repsistance.com"
                     ],
                     "iat": String(issuedAt),
                     "nbf": String(issuedAt),
                     "sub": values.uuid ,
                     "id": theWorstHashEver(`${values.username}}`),
                     "name": values.fullname,
-                    "dom": "dandelionlink",
+                    "dom": "repsistance",
                     extras:{
-                      "url": "contrib.dandelion.link",
-                      "name": "Dandelion Contributor IDNFT",
-                      "author": ["Dandelion Contrib Portal <contrib@dandelion.link>"]
+                      "url": "repsistance.com",
+                      "name": "repsistance Contributor IDNFT",
+                      "author": ["repsistance <contrib@none.guru>"]
                     }
                 }
             }
